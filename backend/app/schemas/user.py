@@ -63,3 +63,7 @@ class UserResponse(BaseModel):
 
 class UserListResponse(UserResponse):
     leads_count: int = 0
+
+
+# Resolve forward references
+Token.model_rebuild()

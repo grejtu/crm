@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { leadsApi } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import LoadingSpinner from '../components/common/LoadingSpinner'
@@ -12,7 +12,6 @@ import { Plus, Search, Lock, List } from 'lucide-react'
 
 export default function Leads() {
   const { user } = useAuth()
-  const navigate = useNavigate()
   const [viewMode, setViewMode] = useState<'my' | 'all'>('my')
   const [statusFilter, setStatusFilter] = useState<LeadStatus | ''>('')
   const [searchPhone, setSearchPhone] = useState('')
@@ -24,7 +23,7 @@ export default function Leads() {
     queryFn: () => leadsApi.getAll(viewMode, statusFilter || undefined),
   })
 
-  const { data: searchResults, isLoading: isSearching } = useQuery({
+  const { data: searchResults } = useQuery({
     queryKey: ['leadsSearch', searchPhone, searchEmail],
     queryFn: () => leadsApi.search(searchPhone || undefined, searchEmail || undefined),
     enabled: searchPhone.length > 2 || searchEmail.length > 2,

@@ -4,11 +4,10 @@ import { bidderApi } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import Modal from '../components/common/Modal'
-import EmptyState from '../components/common/EmptyState'
 import { BIDDING_STATUS_LABELS, BiddingStatus } from '../types'
 import toast from 'react-hot-toast'
 import { Navigate, Link } from 'react-router-dom'
-import { Gavel, DollarSign, FileText, Check, X, Clock } from 'lucide-react'
+import { Gavel, DollarSign, Check } from 'lucide-react'
 
 const BIDDING_STATUS_COLORS: Record<BiddingStatus, string> = {
   pending: 'bg-yellow-100 border-yellow-300 text-yellow-800',

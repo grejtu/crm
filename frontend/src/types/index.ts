@@ -93,9 +93,10 @@ export interface BidderLead {
 }
 
 export interface BidderPipelineData {
-  bidding_order: BidderLead[]
-  carfax_ok: BidderLead[]
-  won: BidderLead[]
+  pending: any[]
+  carfax_ok: any[]
+  won: any[]
+  lost: any[]
 }
 
 export interface ResignedLeadsData {
@@ -189,3 +190,21 @@ export const BIDDING_STATUS_LABELS: Record<BiddingStatus, string> = {
   won: 'Wygrana',
   lost: 'Przegrana',
 }
+
+export type UserRole = 'manager' | 'user' | 'bidder'
+
+export const ROLE_LABELS: Record<UserRole, string> = {
+  manager: 'Manager',
+  user: 'Handlowiec',
+  bidder: 'Licytator',
+}
+
+export const PIPELINE_STATUSES: LeadStatus[] = [
+  'wants_car',
+  'searching_no_contract',
+  'contract_sent',
+  'contract_signed',
+  'deposit',
+  'bidding_order',
+  'won',
+]

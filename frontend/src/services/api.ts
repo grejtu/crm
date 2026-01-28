@@ -162,6 +162,10 @@ export const bidderApi = {
     })
     return data
   },
+  updateLead: async (leadId: number, updateData: { bidding_status?: BiddingStatus; final_budget?: number; notes?: string }) => {
+    const { data } = await api.put(`/bidder/leads/${leadId}`, updateData)
+    return data
+  },
 }
 
 // Dashboard & Stats
@@ -200,5 +204,8 @@ export const importApi = {
     return data
   },
 }
+
+// Stats (alias for dashboard)
+export const statsApi = dashboardApi
 
 export default api

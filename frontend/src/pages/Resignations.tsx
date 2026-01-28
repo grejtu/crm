@@ -14,7 +14,7 @@ export default function Resignations() {
 
   const { data: resigned, isLoading } = useQuery({
     queryKey: ['resignedLeads'],
-    queryFn: leadsApi.getResigned,
+    queryFn: () => leadsApi.getResigned(),
   })
 
   const restoreMutation = useMutation({
