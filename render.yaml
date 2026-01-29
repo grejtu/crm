@@ -1,12 +1,12 @@
 databases:
-  - name: crm-db
+  - name: grejtu-crm-db
     databaseName: crm
     plan: free
     region: frankfurt
 
 services:
   - type: web
-    name: crm-backend
+    name: grejtu-crm-api
     runtime: python
     region: frankfurt
     plan: free
@@ -16,19 +16,19 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: crm-db
+          name: grejtu-crm-db
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: FRONTEND_URL
         fromService:
-          name: crm-frontend
+          name: grejtu-crm-web
           type: web
           property: host
     healthCheckPath: /health
 
   - type: web
-    name: crm-frontend
+    name: grejtu-crm-web
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
@@ -44,6 +44,6 @@ services:
     envVars:
       - key: VITE_API_URL
         fromService:
-          name: crm-backend
+          name: grejtu-crm-api
           type: web
           property: host
