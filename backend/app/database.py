@@ -5,10 +5,18 @@ from .config import get_settings
 
 settings = get_settings()
 
-engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args={"check_same_thread": False}  # Only for SQLite
-)
+# Handle different database backends
+database_url = settings.DATABASE_URL
+connect_args = {}
+
+# SQLite needs check_same_thread=False
+if database_url.startswith("sqlite"):
+    connect_args["check_same_thread"] = False
+# PostgreSQL from Render uses postgres:// but SQLAlchemy needs postgresql://
+elif database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(database_url, connect_args=connect_args)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
