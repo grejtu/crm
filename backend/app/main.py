@@ -99,3 +99,51 @@ def root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
+
+@app.get("/seed")
+def seed_database():
+    """Manually seed the database with default users"""
+    db = SessionLocal()
+    try:
+        admin = db.query(User).filter(User.email == "admin@crm.pl").first()
+        if admin:
+            return {"message": "Database already seeded", "users": ["admin@crm.pl", "user@crm.pl", "bidder@crm.pl"]}
+
+        admin = User(
+            email="admin@crm.pl",
+            password_hash=AuthService.get_password_hash("admin123"),
+            name="Administrator",
+            role=UserRole.MANAGER
+        )
+        db.add(admin)
+
+        user = User(
+            email="user@crm.pl",
+            password_hash=AuthService.get_password_hash("user1234"),
+            name="Jan Kowalski",
+            role=UserRole.USER
+        )
+        db.add(user)
+
+        bidder = User(
+            email="bidder@crm.pl",
+            password_hash=AuthService.get_password_hash("bidder12"),
+            name="Piotr Licytant",
+            role=UserRole.BIDDER
+        )
+        db.add(bidder)
+
+        db.commit()
+        return {
+            "message": "Database seeded successfully",
+            "users": [
+                {"email": "admin@crm.pl", "password": "admin123", "role": "manager"},
+                {"email": "user@crm.pl", "password": "user1234", "role": "user"},
+                {"email": "bidder@crm.pl", "password": "bidder12", "role": "bidder"}
+            ]
+        }
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        db.close()
