@@ -15,10 +15,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: FRONTEND_URL
-        fromService:
-          name: grejtu-crm-web
-          type: web
-          property: host
+        value: "grejtu-crm-web.onrender.com"
     healthCheckPath: /health
 
   - type: web
@@ -40,7 +37,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          name: grejtu-crm-api
-          type: web
-          property: host
+        value: "grejtu-crm-api.onrender.com"
